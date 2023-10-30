@@ -1,7 +1,0 @@
-https://stackoverflow.com/questions/60252045/execute-a-plugin-in-marketing-list-in-microsoft-dynamics-365
-
-https://crmfortress.com/2017/08/24/dynamics-365-teams-addmembersremovemembers-vs-associatedisassociate/
-
-https://debajmecrm.com/dynamics-crm-plugins-when-user-added-team-add-member-team/
-
-https://www.c-sharpcorner.com/article/assigning-case-to-appropriate-team-user-using-plugin-in-dynamics-365-crm/
