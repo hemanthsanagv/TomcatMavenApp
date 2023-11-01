@@ -1,0 +1,106 @@
+// JavaScript source code
+function callingJSOnClickofbutton() {
+    alert("createbuttioncalling");
+}
+
+
+//u have to give inverst result = false
+//default also will be the = false
+function HidecustombuttonbasedonCondition() {
+    //debugger;
+    var bydefault = false; // by default it is hide a button
+
+    var entityname = Xrm.Page.data.entity.getEntityName();
+
+    if (Xrm.Page.ui.formSelector != null) {
+        var currentFormName = Xrm.Page.ui.formSelector.getCurrentItem().getLabel();
+        if (entityname == "new_loancustomer") {
+            if (currentFormName == "Information") {
+                bydefault = true;//button should have appeared
+            }
+        }
+
+    }
+    return bydefault;  //  it will return either true or false
+}
+
+
+//if you want read value from the field
+//go to command ->click on action->select javascript action
+//then bind the function then select ->crmparameter
+//Add parameter 
+//then select crm parameter , 
+//then select the primary control
+//here executioncontext == primarycontrol
+//here executionContext is comming from PrimaryControl
+function gettingValue(executionContext) {
+    try {
+        var formContext = executionContext.getFormContext();
+
+        var customerEmail = formContext.getAttribute("axis_loancustomeremail").getValue();
+        alert("This email  is : " + customerEmail);
+
+    }
+    catch (e) {
+        Xrm.Utility.alertDialog(e.message);
+    }
+}
+
+//how do you call or get formcontext from onclick of ribbon button
+function mySampleFunction(primaryControl) {
+    var formContext = primaryControl.getFormContext(); // get formContext 
+    var DealerName = formContext.getAttribute("new_zonename").getValue();
+    alert("This Dealer Zone  is : " + DealerName);
+}
+
+//go to command -- click actions--javascript action - then paramerter
+//how do get RecordID from home grid //selectedControlseletedItemIds parameter
+function GettingIDsfromSelectedRecordsfromHomePageGrid(selectedIds) {
+    if (selectedIds != null && selectedIds != "") {
+        var strIds = selectedIds.toString();
+        var arrIds = strIds.split(",");
+        for (var indxIds = 0; indxIds < arrIds.length; indxIds++) {
+            alert(arrIds[indxIds]);
+            alert("Selected Records");
+        }
+        
+    }
+    else {
+        alert("No records selected!");
+    }
+}
+
+
+
+
+
+
+function updateRecordLoancustomer(item) {
+    if (item != null && item != "") {
+        var strIds = item.toString();
+        var arrIds = strIds.split(",");
+        for (var indxIds = 0; indxIds < arrIds.length; indxIds++) {
+            //for Example "{2C2B7561-D72F-EC11-B6E6-000D3AC9FD2F}
+            updateLoancustomerRecords(arrIds[indxIds]);
+        }
+        alert("Selected Records Updated Successfully");
+    }
+    else {
+        alert("No records selected!");
+    }
+}
+
+function updateLoancustomerRecords(loancustomerIDs) {
+    alert(loancustomerIDs);
+    var entity = {};
+    entity.new_loantype = 1;
+
+    Xrm.WebApi.online.updateRecord("new_loancustomer", loancustomerIDs, entity).then(
+        function success(result) {
+            var updatedEntityId = result.id;
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
+}
